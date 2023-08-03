@@ -75,7 +75,6 @@ func getInstructionsFromInput(fileName string) ([]instruction, error) {
 func getCycleToValueMap(instructions []instruction) (int, map[int]int) {
 	x := 1
 	cycle := 0
-	last := 1
 	cycleToX := make(map[int]int)
 
 	cycleToX[cycle] = x
@@ -86,20 +85,17 @@ func getCycleToValueMap(instructions []instruction) (int, map[int]int) {
 			cycleToX[cycle+2] = x
 			x += instruction.val
 			cycle += 2
-			last = 2
 		} else {
 			cycleToX[cycle+1] = x
 			cycle++
-			last = 1
 		}
 
 	}
 
-	return cycle - last, cycleToX
+	return cycle, cycleToX
 }
 
 func getImage(cycle int, cycleToX map[int]int) [][]string {
-
 	crt := make([][]string, 6)
 	for i := range crt {
 		crt[i] = make([]string, 40)
@@ -107,7 +103,7 @@ func getImage(cycle int, cycleToX map[int]int) [][]string {
 
 	pos := 0
 	sprite := 1
-	for i := 1; i <= 240; i++ {
+	for i := 1; i <= cycle; i++ {
 		sprite = cycleToX[i]
 		c, r := pos%40, pos/40
 		if c >= sprite-1 && c <= sprite+1 {
