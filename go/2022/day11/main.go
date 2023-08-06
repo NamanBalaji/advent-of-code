@@ -27,8 +27,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
+	fmt.Println(getMonkeyBuisness(monkeyOps, rounds1, false))
 
-	//fmt.Println(getMonkeyBuisness(monkeyOps, rounds1, false))
+	monkeyOps, err = getMoneyOpsFromInput("input.txt")
+	if err != nil {
+		panic(err)
+	}
+
 	fmt.Println(getMonkeyBuisness(monkeyOps, rounds2, true))
 }
 
