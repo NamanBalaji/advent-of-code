@@ -27,18 +27,22 @@ func main() {
 
 	ans := 0
 
-	for !dropSand(grid) {
+	for !dropSand(grid, lowestCol, highestCol, highestRow) {
 		ans++
 	}
 
-	for i := 0; i < len(grid); i++ {
-		for j := 0; j < len(grid[0]); j++ {
-			fmt.Printf("%s ", grid[i][j])
+	fmt.Println(ans)
+
+	resetGrid(grid)
+	ans2 := 0
+	for !dropSand(grid, 0, 999, highestRow+2) {
+		ans2++
+		if grid[0][500] == "o" {
+			break
 		}
-		fmt.Println()
 	}
 
-	fmt.Println(ans)
+	fmt.Println(ans2)
 }
 
 func getGridFromInput(filename string) ([][]string, error) {
@@ -71,13 +75,9 @@ func getGridFromInput(filename string) ([][]string, error) {
 
 	}
 
-	// each row's last index will be highestCol - lowestCol
-	colNum := highestCol - lowestCol + 1
-	rowNum := highestRow + 1
-	// get adjusted coordinates
-	for _, c := range coordinates {
-		c.y = c.y - lowestCol
-	}
+	// as part 2 column tends to infinity
+	colNum := 1000
+	rowNum := highestRow + 3
 
 	grid := make([][]string, rowNum)
 
@@ -85,12 +85,13 @@ func getGridFromInput(filename string) ([][]string, error) {
 		grid[i] = make([]string, colNum)
 
 		for j := 0; j < colNum; j++ {
-			if 500-lowestCol == j && i == 0 {
+			if 500 == j && i == 0 {
 				grid[i][j] = "+"
 			} else {
 				grid[i][j] = "."
 			}
 		}
+
 	}
 
 	fillRocks(grid, pairs)
@@ -102,6 +103,16 @@ func getInt(s string) int {
 	num, _ := strconv.Atoi(s)
 
 	return num
+}
+
+func resetGrid(grid [][]string) {
+	for i, row := range grid {
+		for j := range row {
+			if grid[i][j] != "#" {
+				grid[i][j] = "."
+			}
+		}
+	}
 }
 
 func evalCoordinateString(str []string) *coord {
@@ -137,6 +148,10 @@ func fillRocks(grid [][]string, pairs []pair) {
 			}
 		}
 	}
+
+	for j := range grid[len(grid)-1] {
+		grid[len(grid)-1][j] = "#"
+	}
 }
 
 func getSortedCoordinate(a, b int) (int, int) {
@@ -147,29 +162,28 @@ func getSortedCoordinate(a, b int) (int, int) {
 	return a, b
 }
 
-func dropSand(grid [][]string) bool {
-	r, c := 0, 500-lowestCol
+func dropSand(grid [][]string, lc, hc, hr int) bool {
+	r, c := 0, 500
 
-	for r < len(grid)-1 {
+	for r < hr {
 		rowBelow := r + 1
 		colRight := c + 1
 		colLeft := c - 1
 
 		if grid[rowBelow][c] == "." {
 			r++
-		} else if colLeft >= 0 && grid[rowBelow][colLeft] == "." {
+		} else if colLeft >= lc && grid[rowBelow][colLeft] == "." {
 			r++
 			c--
-		} else if colRight < len(grid[0]) && grid[rowBelow][colRight] == "." {
+		} else if colRight <= hc && grid[rowBelow][colRight] == "." {
 			r++
 			c++
-		} else if colLeft < 0 {
+		} else if colLeft < lc {
 			return true
-		} else if colRight >= len(grid[0]) {
+		} else if colRight > hc {
 			return true
 		} else {
 			grid[r][c] = "o"
-
 			return false
 		}
 	}
