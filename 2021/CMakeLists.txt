@@ -1,0 +1,12 @@
+cmake_minimum_required(VERSION 3.10)
+project(AdventOfCode)
+
+# Set C++ standard
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Include utils
+include_directories(utils)
+
+# Add executables for each day
+add_executable(Day01 Day01/main.cpp utils/file_utils.cpp)
