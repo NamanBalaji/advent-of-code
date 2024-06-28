@@ -10,3 +10,4 @@ include_directories(utils)
 
 # Add executables for each day
 add_executable(Day01 Day01/main.cpp utils/file_utils.cpp)
+add_executable(Day02 Day02/main.cpp utils/file_utils.cpp)
