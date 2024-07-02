@@ -15,3 +15,20 @@ std::vector<std::string> read_lines(const std::string &filename) {
     file.close();
     return lines;
 }
+
+std::vector<int> get_nums_vector(const std::string& nums_string) {
+    std::vector<int> nums;
+    std::string num_string;
+    for (char ch : nums_string) {
+        if (ch != ',') {
+            num_string += ch;
+        } else {
+            nums.push_back(std::stoi(num_string));
+            num_string = "";
+        }
+    }
+    if (!num_string.empty()) {
+        nums.push_back(std::stoi(num_string));
+    }
+    return nums;
+}
