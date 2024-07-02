@@ -3,24 +3,6 @@
 #include <string>
 #include "file_utils.h"
 
-// Function to parse the numbers from the input string
-std::vector<int> get_numbers(const std::string& nums_string) {
-    std::vector<int> nums;
-    std::string num_string;
-    for (char ch : nums_string) {
-        if (ch != ',') {
-            num_string += ch;
-        } else {
-            nums.push_back(std::stoi(num_string));
-            num_string = "";
-        }
-    }
-    if (!num_string.empty()) {
-        nums.push_back(std::stoi(num_string));
-    }
-    return nums;
-}
-
 // Function to parse the boards from the input lines
 std::vector<std::vector<std::vector<int>>> get_boards(const std::vector<std::string>& input) {
     std::vector<std::vector<std::vector<int>>> boards;
@@ -121,7 +103,7 @@ int calculate_score(const std::vector<std::vector<int>>& grid, const std::vector
 int main() {
     std::vector<std::string> input = read_lines("../Day04/input.txt");
 
-    std::vector<int> nums = get_numbers(input[0]);
+    std::vector<int> nums = get_nums_vector(input[0]);
     std::vector<std::vector<std::vector<int>>> boards = get_boards(input);
 
     int min_turns = 100000;
