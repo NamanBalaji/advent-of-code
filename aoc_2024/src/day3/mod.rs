@@ -14,49 +14,16 @@ pub fn mull_it_over(input: &str) -> i32 {
 }
 
 pub fn mull_it_over_2(input: &str) -> i32 {
-    let mut pos = 0;
+    let mem: Vec<&str> = input.split("don't()").collect();
     let mut sum = 0;
-    let mut enabled = true;
-    let chars: Vec<char> = input.chars().collect();
-    let len = chars.len();
+    sum += mull_it_over(mem[0]);
 
-    while pos < len {
-        if !chars[pos].is_ascii_alphabetic() {
-            pos += 1;
-            continue;
+    for m in 1..mem.len() {
+        let cmd = mem[m];
+        let cmd: Vec<&str> = cmd.split("do()").collect();
+        for i in 1..cmd.len() {
+            sum += mull_it_over(cmd[i]);
         }
-
-        if pos + 3 < len && &input[pos..pos + 4] == "do()" {
-            enabled = true;
-            pos += 4;
-            continue;
-        }
-
-        if pos + 6 < len && &input[pos..pos + 7] == "don't()" {
-            enabled = false;
-            pos += 7;
-            continue;
-        }
-
-        if pos + 3 < len && &input[pos..pos + 4] == "mul(" {
-            let start = pos + 4;
-            if let Some(end_pos) = input[start..].find(')') {
-                if let Some((num1, num2)) = get_nums(&input[pos + 4..start + end_pos + 1]) {
-                    if enabled {
-                        sum += num1 * num2;
-                    }
-                    pos = start + end_pos + 1;
-                    continue;
-                } else {
-                    pos += 4;
-                    continue;
-                }
-            } else {
-                pos += 4;
-                continue;
-            }
-        }
-        pos += 1;
     }
 
     sum
