@@ -4,6 +4,7 @@ use std::fs;
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -36,6 +37,10 @@ fn main() {
         "3" => {
             println!("Day 3, Part 1: {}", day3::mull_it_over(&input));
             println!("Day 3, Part 2: {}", day3::mull_it_over_2(&input));
+        }
+        "4" => {
+            println!("Day 4, Part 1: {}", day4::ceres_search(&input));
+            println!("Day 4, Part 2: {}", day4::ceres_search_2(&input));
         }
         _ => {
             eprintln!("Error: Day {} is not implemented yet.", day);
