@@ -5,6 +5,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -41,6 +42,10 @@ fn main() {
         "4" => {
             println!("Day 4, Part 1: {}", day4::ceres_search(&input));
             println!("Day 4, Part 2: {}", day4::ceres_search_2(&input));
+        }
+        "5" => {
+            println!("Day 5, Part 1: {}", day5::print_queue(&input));
+            println!("Day 5, Part 2: {}", day5::print_queue_2(&input));
         }
         _ => {
             eprintln!("Error: Day {} is not implemented yet.", day);
