@@ -8,6 +8,7 @@ mod day4;
 mod day5;
 mod day6;
 mod day7;
+mod day8;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -56,6 +57,10 @@ fn main() {
         "7" => {
             println!("Day 7, Part 1: {}", day7::bridge_repair(&input));
             println!("Day 7, Part 2: {}", day7::bridge_repair_2(&input));
+        }
+        "8" => {
+            println!("Day 8, Part 1: {}", day8::resonant_collinearity(&input));
+            println!("Day 8, Part 2: {}", day8::resonant_collinearity_2(&input));
         }
         _ => {
             eprintln!("Error: Day {} is not implemented yet.", day);
